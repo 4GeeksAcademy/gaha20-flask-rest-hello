@@ -2,15 +2,15 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
-    favorites = db.relationship('Favorites', backref='user')
+    favorites = db.relationship('Favorites', backref='users')
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<Users %r>' % self.username
 
     def serialize(self):
         return {
@@ -54,7 +54,6 @@ class Characters(db.Model):
     type = db.Column(db.String(250), unique=False, nullable=False)
     name = db.Column(db.String(250), unique=False, nullable=False)
     birth_year = db.Column(db.String(250), unique=False, nullable=False)
-    eyes_color = db.Column(db.String(250), unique=False, nullable=False)
     gender = db.Column(db.String(250), unique=False, nullable=False)
     hair_color = db.Column(db.String(250), unique=False, nullable=False)
     skin_color = db.Column(db.String(250), unique=False, nullable=False)
@@ -75,6 +74,7 @@ class Characters(db.Model):
 
 class Favorites(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     item_type = db.Column(db.String(250), unique=False, nullable=False)
     item_id = db.Column(db.Integer, unique=False, nullable=False)
+
