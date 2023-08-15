@@ -188,6 +188,54 @@ def get_favorites(user_id):
             return jsonify(""), 404
         return jsonify({"favorites" : favorite.serialize()["favorites"]}), 200
 
+@app.route("/users/<int:user_id>/favorites/planets/<int:planet_id>", methods=["POST"])
+def set_planet_favorites(user_id, planet_id):
+    user = Users.query.get(user_id)
+    planet = Planets.query.get(planet_id)
+    if user is None or planet is None:
+        return jsonify({
+            "message": "user/planet does not exist"
+        }), 400
+    favorite = Favorites (
+        user_id = user_id,
+        planet_id = planet_id
+    )
+    try:
+        db.session.add(favorite)
+        db.session.commit()
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({
+            "message": "internal error",
+            "error": error.args
+        }), 500
+    return jsonify({}), 201
+
+@app.route("/users/<int:user_id>/favorites/characters/<int:character_id>", methods=["POST"])
+def set_character_favorites(user_id, character_id):
+    user = Users.query.get(user_id)
+    character = Characters.query.get(character_id)
+    if user is None or character is None:
+        return jsonify({
+            "message": "user/character does not exist"
+        }), 400
+    favorite = Favorites (
+        user_id = user_id,
+        character_id = character_id
+    )
+    try:
+        db.session.add(favorite)
+        db.session.commit()
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({
+            "message": "internal error",
+            "error": error.args
+        }), 500
+    return jsonify({}), 201
+
+    
+
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))

@@ -23,7 +23,6 @@ class Users(db.Model):
 
 class Planets(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(250), unique=False, nullable=True) ## type = planet
     name = db.Column(db.String(250), unique=False, nullable=True)
     terrain = db.Column(db.String(250), unique=False, nullable=True)
     climate = db.Column(db.String(250), unique=False, nullable=True)
@@ -54,7 +53,6 @@ class Planets(db.Model):
 
 class Characters(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(250), unique=False, nullable=True) ## type = character
     name = db.Column(db.String(250), unique=False, nullable=True)
     birth_year = db.Column(db.String(250), unique=False, nullable=True)
     gender = db.Column(db.String(250), unique=False, nullable=True)
