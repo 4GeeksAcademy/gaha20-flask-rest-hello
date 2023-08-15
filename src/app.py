@@ -177,6 +177,16 @@ def get_planet(id):
          return jsonify(""), 404
     return jsonify(planet.serialize()), 200
 
+@app.route("/favorites/users/<int:user_id>", methods=["GET"])
+def get_favorites(user_id):
+        if user_id is None: 
+            return jsonify({
+            "message": "id is required"
+            }), 400
+        favorite = Users.query.get(user_id)
+        if favorite is None:
+            return jsonify(""), 404
+        return jsonify({"favorites" : favorite.serialize()["favorites"]}), 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
