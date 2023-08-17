@@ -3,6 +3,7 @@
 # """
 import os
 from flask import Flask, request, jsonify, url_for
+from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
@@ -234,6 +235,47 @@ def set_character_favorites(user_id, character_id):
         }), 500
     return jsonify({}), 201
 
+@app.route("/users/<int:user_id>/favorites/characters/<int:character_id>", methods=["DELETE"])
+def delete_character_favorites(user_id, character_id):
+    user = Users.query.get(user_id)
+    character = Characters.query.get(character_id)
+    if user is None or character is None:
+        return jsonify({
+            "message": "user/character does not exist"
+        }), 400
+    favorite = Favorites.query.filter_by(user_id = user.id, character_id = character.id).first()
+    try:
+        db.session.delete(favorite)
+        db.session.commit()
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({
+            "message": "internal error",
+            "error": error.args
+        }), 500
+    return jsonify({}), 201
+
+@app.route("/users/<int:user_id>/favorites/planets/<int:planet_id>", methods=["DELETE"])
+def delete_planet_favorites(user_id, planet_id):
+    user = Users.query.get(user_id)
+    planet = Planets.query.get(planet_id)
+    if user is None or planet is None:
+        return jsonify({
+            "message": "user/planet does not exist"
+        }), 400
+    favorite = Favorites.query.filter_by(user_id = user.id, planet_id = planet.id).first()
+    try:
+        db.session.delete(favorite)
+        db.session.commit()
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({
+            "message": "internal error",
+            "error": error.args
+        }), 500
+    return jsonify({}), 201
+    
+    
     
 
 # this only runs if `$ python src/app.py` is executed
