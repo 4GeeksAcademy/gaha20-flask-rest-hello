@@ -56,7 +56,10 @@ def new_user():
         return jsonify({
             "message": "User already exists"
         }), 400
-    user = Users(email, password)
+    user = Users(
+        email = email, 
+        password = password
+        )
 
     try:
         db.session.add(user)
