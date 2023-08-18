@@ -85,18 +85,16 @@ def get_user(id):
 @app.route("/characters", methods=["POST"])
 def create_character():
     body = request.json
-    type = body.get("type")
     name = body.get("name")
     birth_year = body.get("birth_year")
     gender = body.get("gender")
     hair_color = body.get("hair_color")
     skin_color = body.get("skin_color")
-    if type is None or name is None or birth_year is None or gender is None or hair_color is None or skin_color is None:
+    if name is None or birth_year is None or gender is None or hair_color is None or skin_color is None:
         return jsonify({
             "message": "all the items are required"
         }), 400
     character = Characters(
-        type = type,
         name = name,
         birth_year = birth_year,
         gender = gender,
@@ -130,7 +128,6 @@ def get_character(id):
 @app.route("/planets", methods=["POST"])
 def create_planet():
     body = request.json
-    type = body.get("type")
     name = body.get("name")
     terrain = body.get("terrain")
     climate = body.get("climate")
@@ -140,12 +137,11 @@ def create_planet():
     diameter = body.get("diameter")
     gravity = body.get("gravity")
     surface_water = body.get("surface_water")
-    if type is None or name is None or terrain is None or climate is None or population is None or orbital_period is None or rotation_period is None or diameter is None or gravity is None or surface_water is None:
+    if name is None or terrain is None or climate is None or population is None or orbital_period is None or rotation_period is None or diameter is None or gravity is None or surface_water is None:
         return jsonify({
             "message": "all the items are required"
         }), 400
     planet = Planets(
-        type = type,
         name = name,
         terrain = terrain,
         climate = climate,
