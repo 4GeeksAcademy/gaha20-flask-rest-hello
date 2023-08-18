@@ -68,7 +68,6 @@ class Characters(db.Model):
             "id": self.id,
             "name": self.name,
             "birth_year": self.birth_year,
-            "eyes_color": self.eyes_color,
             "gender": self.gender,
             "hair_color": self.hair_color,
             "skin_color": self.skin_color
